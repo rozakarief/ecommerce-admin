@@ -8,13 +8,16 @@ export async function GET(
   { params }: { params: { categoryId: string } }
 ) {
   try {
-    if (!params.categoryId) { 
+    if (!params.categoryId) {
       return new NextResponse("Category ID is require", { status: 400 });
     }
 
     const category = await prismadb.category.findUnique({
       where: {
         id: params.categoryId,
+      },
+      include: {
+        billboard: true,
       },
     });
 
